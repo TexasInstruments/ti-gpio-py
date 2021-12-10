@@ -1,0 +1,77 @@
+diff --git a/gpiozero/devices.py b/gpiozero/devices.py
+index 964e7ae..374d674 100644
+--- a/gpiozero/devices.py
++++ b/gpiozero/devices.py
+@@ -254,6 +254,7 @@ class Device(ValuesMixin, GPIOBase):
+         # NOTE: If the built-in pin factories are expanded, the dict must be
+         # updated along with the entry-points in setup.py.
+         default_factories = OrderedDict((
++            ('tiskgpio','gpiozero.pins.tiskgpio:TISKFactory'),
+             ('rpigpio', 'gpiozero.pins.rpigpio:RPiGPIOFactory'),
+             ('lgpio',   'gpiozero.pins.lgpio:LGPIOFactory'),
+             ('pigpio',  'gpiozero.pins.pigpio:PiGPIOFactory'),
+diff --git a/gpiozero/pins/tiskgpio.py b/gpiozero/pins/tiskgpio.py
+new file mode 100644
+index 0000000..e120a2e
+--- /dev/null
++++ b/gpiozero/pins/tiskgpio.py
+@@ -0,0 +1,37 @@
++# Copyright (c) 2021, Texas Instruments Incorporated. All rights reserved.
++#
++# Permission is hereby granted, free of charge, to any person obtaining a
++# copy of this software and associated documentation files (the "Software"),
++# to deal in the Software without restriction, including without limitation
++# the rights to use, copy, modify, merge, publish, distribute, sublicense,
++# and/or sell copies of the Software, and to permit persons to whom the
++# Software is furnished to do so, subject to the following conditions:
++#
++# The above copyright notice and this permission notice shall be included in
++# all copies or substantial portions of the Software.
++#
++# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
++# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
++# DEALINGS IN THE SOFTWARE.
++
++from RPi import GPIO
++from .rpigpio import RPiGPIOFactory, RPiGPIOPin
++#from .rpigpio import RPiGPIOFactory
++
++class TISKFactory(RPiGPIOFactory):
++    """
++    Extends :class:`RPiGPIOFactory`to support TI SK board.
++    """
++
++    def __init__(self):
++        super().__init__()
++        revision = 'b03111'
++        self._revision = int(revision, base=16)
++
++    def _get_revision(self):
++        return self._revision
++
+diff --git a/setup.cfg b/setup.cfg
+index ebe4929..693b52d 100644
+--- a/setup.cfg
++++ b/setup.cfg
+@@ -50,11 +50,12 @@ doc =
+ console_scripts =
+     pinout = gpiozerocli.pinout:main
+ gpiozero_pin_factories =
+-    pigpio  = gpiozero.pins.pigpio:PiGPIOFactory
+-    lgpio   = gpiozero.pins.lgpio:LGPIOFactory
+-    rpigpio = gpiozero.pins.rpigpio:RPiGPIOFactory
+-    native  = gpiozero.pins.native:NativeFactory
+-    mock    = gpiozero.pins.mock:MockFactory
++    pigpio   = gpiozero.pins.pigpio:PiGPIOFactory
++    lgpio    = gpiozero.pins.lgpio:LGPIOFactory
++    rpigpio  = gpiozero.pins.rpigpio:RPiGPIOFactory
++    native   = gpiozero.pins.native:NativeFactory
++    mock     = gpiozero.pins.mock:MockFactory
++    tiskgpio = gpiozero.pins.tiskgpio:TISKFactory
+ gpiozero_mock_pin_classes =
+     mockpin          = gpiozero.pins.mock:MockPin
+     mockpwmpin       = gpiozero.pins.mock:MockPWMPin
