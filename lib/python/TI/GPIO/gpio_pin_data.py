@@ -80,7 +80,7 @@ J721E_SK_PIN_DEFS = [
 ]
 
 compats_j721e = (
-    'ti,j721e-eaikti',
+    'ti,j721e-sk',
     'ti,j721e',
 )
 
