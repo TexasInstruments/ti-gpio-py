@@ -278,6 +278,7 @@ def _cleanup_one(ch_info):
 def _cleanup_all():
     global _gpio_mode
 
+    _pwm_channels.clear()
     for channel in list(_channel_configuration.keys()):
         ch_info = _channel_to_info(channel)
         _cleanup_one(ch_info)
