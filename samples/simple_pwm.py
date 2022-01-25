@@ -24,7 +24,7 @@ import RPi.GPIO as GPIO
 import time
 
 output_pins = {
-    'J721E_SK': 18,
+    'J721E_SK': 32,
 }
 output_pin = output_pins.get(GPIO.model, None)
 if output_pin is None:
