@@ -35,14 +35,14 @@ pin_datas = {
         'out_b': 29,
         'in_b': 26,
         'unimplemented_pins': (),
-        'all_pwms': (),
+        'all_pwms': (29, 32),
     },
 }
 pin_data = pin_datas.get(GPIO.model)
 
 # Board mode
-all_board_pins = (7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 29, 31,
-                  32, 33, 35, 36, 37, 38, 40,)
+all_board_pins = (7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26, 31,
+                  33, 35, 36, 37, 38, 40,)
 bcm_pin = 4
 
 tests = []

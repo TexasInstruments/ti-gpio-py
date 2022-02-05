@@ -77,12 +77,11 @@ RPI_INFO = BOARD_INFO
 # Dictionary objects used as lookup tables for pin to linux gpio mapping
 _channel_data = {}
 
-_pwm_channels = {}
+_sw_pwm_channels = {}
 
 _gpio_warnings = True
 _gpio_mode = None
 _channel_configuration = {}
-
 
 def _validate_mode_set():
     if _gpio_mode is None:
@@ -278,7 +277,7 @@ def _cleanup_one(ch_info):
 def _cleanup_all():
     global _gpio_mode
 
-    _pwm_channels.clear()
+    _sw_pwm_channels.clear()
     for channel in list(_channel_configuration.keys()):
         ch_info = _channel_to_info(channel)
         _cleanup_one(ch_info)
@@ -338,7 +337,7 @@ def setup(channels, direction, pull_up_down=_Default(PUD_OFF), initial=None):
 
     # Check if any of the channels is running as a PWM channel
     for c in _make_iterable(channels):
-        if c in _pwm_channels:
+        if c in _sw_pwm_channels:
             raise ValueError("Channel %d already running as a PWM channel" % (c))
 
     ch_infos = _channels_to_infos(channels, need_gpio=True)
@@ -579,12 +578,92 @@ def gpio_function(channel):
         func = UNKNOWN
     return func
 
-class PWM(object):
+class HW_PWM(object):
+    def __init__(self, channel, frequency_hz):
+        self._ch_info = _channel_to_info(channel, need_pwm=True)
+
+        app_cfg = _app_channel_configuration(self._ch_info)
+        if app_cfg == HARD_PWM:
+            raise ValueError("Can't create duplicate PWM objects")
+        # Apps typically set up channels as GPIO before making them be PWM,
+        # because RPi.GPIO does soft-PWM. We must undo the GPIO export to
+        # allow HW PWM to run on the pin.
+        if app_cfg in [IN, OUT]:
+            cleanup(channel)
+
+        if _gpio_warnings:
+            sysfs_cfg = _sysfs_channel_configuration(self._ch_info)
+            app_cfg = _app_channel_configuration(self._ch_info)
+
+            # warn if channel has been setup external to current program
+            if app_cfg is None and sysfs_cfg is not None:
+                warnings.warn(
+                    "This channel is already in use, continuing anyway. "
+                    "Use GPIO.setwarnings(False) to disable warnings",
+                    RuntimeWarning)
+
+        _export_pwm(self._ch_info)
+        self._started = False
+        _set_pwm_duty_cycle(self._ch_info, 0)
+        # Anything that doesn't match new frequency_hz
+        self._frequency_hz = -1 * frequency_hz
+        self._reconfigure(frequency_hz, 0.0)
+
+        _channel_configuration[channel] = HARD_PWM
+
+    def __del__(self):
+        if _channel_configuration.get(self._ch_info.channel, None) != HARD_PWM:
+            # The user probably ran cleanup() on the channel already, so avoid
+            # attempts to repeat the cleanup operations.
+            return
+        self.stop()
+        _unexport_pwm(self._ch_info)
+        del _channel_configuration[self._ch_info.channel]
+
+    def start(self, duty_cycle_percent):
+        self._reconfigure(self._frequency_hz, duty_cycle_percent, start=True)
+
+    def ChangeFrequency(self, frequency_hz):
+        self._reconfigure(frequency_hz, self._duty_cycle_percent)
+
+    def ChangeDutyCycle(self, duty_cycle_percent):
+        self._reconfigure(self._frequency_hz, duty_cycle_percent)
+
+    def stop(self):
+        if not self._started:
+            return
+        _disable_pwm(self._ch_info)
+
+    def _reconfigure(self, frequency_hz, duty_cycle_percent, start=False):
+        if duty_cycle_percent < 0.0 or duty_cycle_percent > 100.0:
+            raise ValueError("Invalid duty cycle.")
+
+        freq_change = start or (frequency_hz != self._frequency_hz)
+        stop = self._started and freq_change
+        if stop:
+            self._started = False
+            _disable_pwm(self._ch_info)
+
+        if freq_change:
+            self._frequency_hz = frequency_hz
+            self._period_ns = int(1000000000.0 / frequency_hz)
+            _set_pwm_period(self._ch_info, self._period_ns)
+
+        self._duty_cycle_percent = duty_cycle_percent
+        self._duty_cycle_ns = int(self._period_ns *
+                                  (duty_cycle_percent / 100.0))
+        _set_pwm_duty_cycle(self._ch_info, self._duty_cycle_ns)
+
+        if stop or start:
+            _enable_pwm(self._ch_info)
+            self._started = True
+
+class SW_PWM(object):
     def __init__(self, channel, frequency_hz):
         self._init = False
 
         # Check if the channel is already running as a PWM channel
-        if channel in _pwm_channels:
+        if channel in _sw_pwm_channels:
             raise ValueError("Channel %d already running as PWM." % (channel))
 
         if frequency_hz <= 0.0:
@@ -611,10 +690,10 @@ class PWM(object):
         self._basetime           = 1000.0/self._frequency_hz # ms
         self._slicetime          = self._basetime/100.0
         self._stop_thread        = False
-        self.thread              = threading.Thread(target=self._pwm_device, args=())
         self._calculate_times()
         _channel_configuration[channel] = OUT
-        _pwm_channels[channel] = True
+        GPIO.setup(channel, GPIO.OUT)
+        _sw_pwm_channels[channel] = True
         self._init = True
 
     def _print(self):
@@ -633,15 +712,20 @@ class PWM(object):
         if self._init:
             self.stop()
 
-            if self._ch_info.channel in _pwm_channels:
-                del _pwm_channels[self._ch_info.channel]
+            if self._ch_info.channel in _sw_pwm_channels:
+                del _sw_pwm_channels[self._ch_info.channel]
 
     def start(self, duty_cycle_percent):
         if duty_cycle_percent < 0.0 or duty_cycle_percent > 100.0:
             raise ValueError("Invalid duty cycle")
 
-        # Start the thread
-        self.thread.start()
+        if not self._started:
+            # Create a new object. There is no restart support i.e. if you
+            # stop a thread then it cannot be started again.
+            self.thread = threading.Thread(target=self._pwm_device, args=())
+
+            # Start the thread
+            self.thread.start()
 
     def _pwm_device(self):
         self._started = True
@@ -683,5 +767,37 @@ class PWM(object):
         self._calculate_times()
 
         if stop or start:
-            self.start()
+            self.start(self._duty_cycle_percent)
+
+class PWM(object):
+    def __init__(self, channel, frequency_hz):
+
+        # Get the channel information and check if it has PWM
+        # directory information populated. The idea is that if
+        # it has a PWM directory information populated then it
+        # supports HW PWM functionality.
+        ch_info = _channel_to_info(channel, need_pwm=False)
+
+        if ch_info.pwm_chip_dir is not None:
+            self._pwm = HW_PWM(channel, frequency_hz) 
+        else:
+            self._pwm = SW_PWM(channel, frequency_hz) 
+
+    def __del__(self):
+        del self._pwm
+
+    def start(self, duty_cycle_percent):
+        self._pwm.start(duty_cycle_percent)
+
+    def ChangeFrequency(self, frequency_hz):
+        self._pwm.ChangeFrequency(frequency_hz)
+
+    def ChangeDutyCycle(self, duty_cycle_percent):
+        self._pwm.ChangeDutyCycle(duty_cycle_percent)
+
+    def stop(self):
+        self._pwm.stop()
+
+    def _reconfigure(self, frequency_hz, duty_cycle_percent, start=False):
+        self._pwm._reconfigure(frequency_hz, duty_cycle, start)
 
