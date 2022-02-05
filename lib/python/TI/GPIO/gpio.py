@@ -692,7 +692,6 @@ class SW_PWM(object):
         self._stop_thread        = False
         self._calculate_times()
         _channel_configuration[channel] = OUT
-        GPIO.setup(channel, GPIO.OUT)
         _sw_pwm_channels[channel] = True
         self._init = True
 
