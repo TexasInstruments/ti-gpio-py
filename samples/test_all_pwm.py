@@ -20,44 +20,50 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-from __future__ import print_function
-import sys
+import RPi.GPIO as GPIO
 import time
 
-import RPi.GPIO as GPIO
-
-pin_datas = {
+all_pwm_pins = {
     'J721E_SK': {
-        'unimplemented': (),
-        'input_only': (),
-    },
+        'sw_pwm': [11, 12, 15, 16], # Can be any valid GPIO pins
+        'hw_pwm': [29, 31, 32, 33]  # Designated HW PWM pins
+        },
 }
-pin_data = pin_datas.get(GPIO.model)
-all_pins = (7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26,
-            35, 36, 37, 38, 40,)
 
-if len(sys.argv) > 1:
-    all_pins = map(int, sys.argv[1:])
+pin_data = all_pwm_pins.get(GPIO.model)
 
-for pin in all_pins:
-    if pin in pin_data['unimplemented']:
-        print("Pin %d unimplemented; skipping" % pin)
-        continue
+pwm_pins = pin_data['sw_pwm'] + pin_data['hw_pwm']
 
-    if pin in pin_data['input_only']:
-        print("Pin %d input-only; skipping" % pin)
-        continue
+def main():
+    for pin in pwm_pins:
+        print("Testing pin %d as OUTPUT; CTRL-C to test next pin" % pin)
 
-    print("Testing pin %d as OUTPUT; CTRL-C to test next pin" % pin)
-    try:
+        # Board pin-numbering scheme
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(pin, GPIO.OUT)
-        while True:
-            GPIO.output(pin, GPIO.HIGH)
-            time.sleep(0.25)
-            GPIO.output(pin, GPIO.LOW)
-            time.sleep(0.25)
-    except KeyboardInterrupt:
-        pass
-    finally:
+        # set pin as an output pin with optional initial state of HIGH
+        GPIO.setup(pin, GPIO.OUT, initial=GPIO.HIGH)
+        p = GPIO.PWM(pin, 50)
+        val = 25
+        incr = 5
+        p.start(val)
+
+        print("PWM running. Press CTRL+C to exit.")
+        try:
+            while True:
+                time.sleep(0.25)
+                if val >= 100:
+                    incr = -incr
+                if val <= 0:
+                    incr = -incr
+                val += incr
+                p.ChangeDutyCycle(val)
+        except KeyboardInterrupt:
+            pass
+        finally:
+            pass
+
+        p.stop()
         GPIO.cleanup()
+
+if __name__ == '__main__':
+    main()

@@ -30,7 +30,6 @@ output_pin = output_pins.get(GPIO.model, None)
 if output_pin is None:
     raise Exception('PWM not supported on this board')
 
-
 def main():
     # Pin Setup:
     # Board pin-numbering scheme
@@ -52,9 +51,13 @@ def main():
                 incr = -incr
             val += incr
             p.ChangeDutyCycle(val)
+    except KeyboardInterrupt:
+            pass
     finally:
-        p.stop()
-        GPIO.cleanup()
+            pass
+
+    p.stop()
+    GPIO.cleanup()
 
 if __name__ == '__main__':
     main()
