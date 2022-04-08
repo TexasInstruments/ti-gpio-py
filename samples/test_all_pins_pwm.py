@@ -36,7 +36,7 @@ pwm_pins = pin_data['sw_pwm'] + pin_data['hw_pwm']
 
 def main():
     for pin in pwm_pins:
-        print("Testing pin %d as OUTPUT; CTRL-C to test next pin" % pin)
+        print("Testing pin %d as PWM" % pin)
 
         # Board pin-numbering scheme
         GPIO.setmode(GPIO.BOARD)
@@ -47,9 +47,10 @@ def main():
         incr = 5
         p.start(val)
 
-        print("PWM running. Press CTRL+C to exit.")
         try:
-            while True:
+            cnt = 0
+            while cnt < 10:
+                cnt += 1
                 time.sleep(0.25)
                 if val >= 100:
                     incr = -incr
