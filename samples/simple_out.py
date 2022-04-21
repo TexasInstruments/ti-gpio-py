@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Copyright (c) 2019, NVIDIA CORPORATION. All rights reserved.
 # Copyright (c) 2021, Texas Instruments Incorporated. All rights reserved.
