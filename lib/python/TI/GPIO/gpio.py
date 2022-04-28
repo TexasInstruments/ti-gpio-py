@@ -652,11 +652,12 @@ class HW_PWM(object):
         self._duty_cycle_percent = duty_cycle_percent
         self._duty_cycle_ns = int(self._period_ns *
                                   (duty_cycle_percent / 100.0))
-        _set_pwm_duty_cycle(self._ch_info, self._duty_cycle_ns)
 
         if stop or start:
             _enable_pwm(self._ch_info)
             self._started = True
+
+        _set_pwm_duty_cycle(self._ch_info, self._duty_cycle_ns)
 
 class SW_PWM(object):
     def __init__(self, channel, frequency_hz):
