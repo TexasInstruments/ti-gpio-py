@@ -16,7 +16,7 @@ index 0000000..e120a2e
 --- /dev/null
 +++ b/gpiozero/pins/tiskgpio.py
 @@ -0,0 +1,37 @@
-+# Copyright (c) 2021, Texas Instruments Incorporated. All rights reserved.
++# Copyright (c) 2021-2022, Texas Instruments Incorporated. All rights reserved.
 +#
 +# Permission is hereby granted, free of charge, to any person obtaining a
 +# copy of this software and associated documentation files (the "Software"),
