@@ -1,5 +1,5 @@
 # Copyright (c) 2018-2020, NVIDIA CORPORATION. All rights reserved.
-# Copyright (c) 2021, Texas Instruments Incorporated. All rights reserved.
+# Copyright (c) 2021-2022, Texas Instruments Incorporated. All rights reserved.
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
 # to deal in the Software without restriction, including without limitation
@@ -23,6 +23,7 @@ import os.path
 import sys
 
 J721E_SK = 'J721E_SK'
+AM68_SK  = 'AM68_SK'
 
 OFFSET_ENTRY        = 0
 GPIO_NAME_ENTRY     = 1 # Currently unused
@@ -84,6 +85,41 @@ compats_j721e = (
     'ti,j721e',
 )
 
+AM68_SK_PIN_DEFS = [
+#   OFFSET     sysfs_dir      BOARD BCM SOC_NAME    PWM_SysFs  PWM_Id
+    (  4, {}, "600000.gpio",    3,   2, 'GPIO0_4',       None, None),
+    (  5, {}, "600000.gpio",    5,   3, 'GPIO0_5',       None, None),
+    ( 66, {}, "42110000.gpio",  7,   4, 'WKUP_GPIO0_66', None, None),
+    (  1, {}, "600000.gpio",    8,  14, 'GPIO0_1',       None, None),
+    (  2, {}, "600000.gpio",   10,  15, 'GPIO0_2',       None, None),
+    ( 42, {}, "600000.gpio",   11,  17, 'GPIO0_42',      None, None),
+    ( 46, {}, "600000.gpio",   12,  18, 'GPIO0_46',      None, None),
+    ( 36, {}, "600000.gpio",   13,  27, 'GPIO0_36',      None, None),
+    ( 49, {}, "42110000.gpio", 15,  22, 'WKUP_GPIO0_49', None, None),
+    (  3, {}, "600000.gpio",   16,  23, 'GPIO0_3',       None, None),
+    ( 13, {}, "600000.gpio",   18,  24, 'GPIO0_13',      None, None),
+    (  1, {}, "42110000.gpio", 19,  10, 'WKUP_GPIO0_1',  None, None),
+    (  2, {}, "42110000.gpio", 21,   9, 'WKUP_GPIO0_2',  None, None),
+    ( 67, {}, "42110000.gpio", 22,  25, 'WKUP_GPIO0_67', None, None),
+    (  0, {}, "42110000.gpio", 23,  11, 'WKUP_GPIO0_0',  None, None),
+    (  3, {}, "42110000.gpio", 24,   8, 'WKUP_GPIO0_3',  None, None),
+    ( 15, {}, "42110000.gpio", 26,   7, 'WKUP_GPIO0_15', None, None),
+    ( 56, {}, "42110000.gpio", 29,   5, 'WKUP_GPIO0_56', None, None),
+    ( 57, {}, "42110000.gpio", 31,   6, 'WKUP_GPIO0_57', None, None),
+    ( 35, {}, "600000.gpio",   32,  12, 'GPIO0_35',      None, None),
+    ( 51, {}, "600000.gpio",   33,  13, 'GPIO0_51',      None, None),
+    ( 47, {}, "600000.gpio",   35,  19, 'GPIO0_47',      None, None),
+    ( 41, {}, "600000.gpio",   36,  16, 'GPIO0_41',      None, None),
+    ( 27, {}, "600000.gpio",   37,  26, 'GPIO0_27',      None, None),
+    ( 48, {}, "600000.gpio",   38,  20, 'GPIO0_48',      None, None),
+    ( 45, {}, "600000.gpio",   40,  21, 'GPIO0_45',      None, None)
+]
+
+compats_am68sk = (
+    'ti,am68-sk',
+    'ti,j721s2',
+)
+
 board_gpio_data = {
     J721E_SK: (
         J721E_SK_PIN_DEFS,
@@ -91,6 +127,16 @@ board_gpio_data = {
             'RAM': '4096M',
             'REVISION': 'E2',
             'TYPE': 'J721E-EAIK',
+            'MANUFACTURER': 'TI',
+            'PROCESSOR': 'ARM A72'
+        }
+    ),
+    AM68_SK: (
+        AM68_SK_PIN_DEFS,
+        {
+            'RAM': '4096M',
+            'REVISION': 'E2',
+            'TYPE': 'AM68-SK',
             'MANUFACTURER': 'TI',
             'PROCESSOR': 'ARM A72'
         }
@@ -151,6 +197,8 @@ WARNING: and in fact is unlikely to work correctly.
 
     if matches(compats_j721e):
         model = J721E_SK
+    elif matches(compats_am68sk):
+        model = AM68_SK
     else:
         raise Exception('Could not determine TI SOC model')
 
@@ -160,7 +208,10 @@ WARNING: and in fact is unlikely to work correctly.
     gpio_chip_ngpio = {}
     pwm_dirs = {}
 
-    sysfs_prefixes = ['/sys/devices/', '/sys/devices/platform/', '/sys/devices/platform/bus@100000/']
+    sysfs_prefixes = ['/sys/devices/',
+                      '/sys/devices/platform/',
+                      '/sys/devices/platform/bus@100000/',
+                      '/sys/devices/platform/bus@100000/bus@100000:bus@28380000/']
 
     # Get the gpiochip offsets
     gpio_chip_names = set([x[SYSFS_DIR_ENTRY] for x in pin_defs if x[SYSFS_DIR_ENTRY] is not None])

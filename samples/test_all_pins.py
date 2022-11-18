@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Copyright (c) 2019-2020, NVIDIA CORPORATION. All rights reserved.
-# Copyright (c) 2021, Texas Instruments Incorporated. All rights reserved.
+# Copyright (c) 2021-2022, Texas Instruments Incorporated. All rights reserved.
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
 # to deal in the Software without restriction, including without limitation
@@ -30,11 +30,18 @@ pin_datas = {
     'J721E_SK': {
         'unimplemented': (),
         'input_only': (),
+        'hw_pwm': (29, 31, 32, 33), # HW PWMs to skip for this test
+    },
+    'AM68_SK': {
+        'unimplemented': (),
+        'input_only': (),
+        'hw_pwm': (),
     },
 }
+
 pin_data = pin_datas.get(GPIO.model)
 all_pins = (7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26,
-            35, 36, 37, 38, 40,)
+            29, 31, 32, 33, 35, 36, 37, 38, 40,)
 
 if len(sys.argv) > 1:
     all_pins = map(int, sys.argv[1:])
@@ -46,6 +53,10 @@ for pin in all_pins:
 
     if pin in pin_data['input_only']:
         print("Pin %d input-only; skipping" % pin)
+        continue
+
+    if pin in pin_data['hw_pwm']:
+        print("Pin %d hw_pwm; skipping" % pin)
         continue
 
     print("Testing pin %d as OUTPUT; CTRL-C to test next pin" % pin)
