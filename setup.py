@@ -1,5 +1,5 @@
 # Copyright (c) 2020, NVIDIA CORPORATION. All rights reserved.
-# Copyright (c) 2021-2022, Texas Instruments Incorporated. All rights reserved.
+# Copyright (c) 2021-2023, Texas Instruments Incorporated. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

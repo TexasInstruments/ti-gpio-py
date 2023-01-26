@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Copyright (c) 2019-2020, NVIDIA CORPORATION. All rights reserved.
-# Copyright (c) 2021-2022, Texas Instruments Incorporated. All rights reserved.
+# Copyright (c) 2021-2023, Texas Instruments Incorporated. All rights reserved.
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
 # to deal in the Software without restriction, including without limitation
@@ -29,6 +29,10 @@ all_pwm_pins = {
         'hw_pwm': [29, 31, 32, 33]  # Designated HW PWM pins
         },
     'AM68_SK': {
+        'sw_pwm': [11, 12, 15, 16], # Can be any valid GPIO pins
+        'hw_pwm': []  # Designated HW PWM pins
+        },
+    'AM69_SK': {
         'sw_pwm': [11, 12, 15, 16], # Can be any valid GPIO pins
         'hw_pwm': []  # Designated HW PWM pins
         },
