@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Copyright (c) 2019-2020, NVIDIA CORPORATION. All rights reserved.
-# Copyright (c) 2021-2022, Texas Instruments Incorporated. All rights reserved.
+# Copyright (c) 2021-2023, Texas Instruments Incorporated. All rights reserved.
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
 # to deal in the Software without restriction, including without limitation
@@ -77,9 +77,41 @@ am68_sk_pin_defs = [
     (38,  20, 'GPIO0_48'       ),
     (40,  21, 'GPIO0_45'       )
 ]
+
+am69_sk_pin_defs = [
+#    BOARD BCM SOC
+    ( 3,   2,  'WKUP_GPIO0_87'),
+    ( 5,   3,  'WKUP_GPIO0_65'),
+    ( 7,   4,  'WKUP_GPIO0_66'),
+    ( 8,  14,  'GPIO0_1'      ),
+    (10,  15,  'GPIO0_2'      ),
+    (11,  17,  'GPIO0_42'     ),
+    (12,  18,  'GPIO0_46'     ),
+    (13,  27,  'GPIO0_36'     ),
+    (15,  22,  'GPIO0_49'     ),
+    (16,  23,  'GPIO0_3'      ),
+    (18,  24,  'GPIO0_13'     ),
+    (19,  10,  'WKUP_GPIO0_1' ),
+    (21,   9,  'WKUP_GPIO0_2' ),
+    (22,  25,  'WKUP_GPIO0_67'),
+    (23,  11,  'WKUP_GPIO0_0' ),
+    (24,   8,  'WKUP_GPIO0_3' ),
+    (26,   7,  'WKUP_GPIO0_15'),
+    (29,   5,  'WKUP_GPIO0_56'),
+    (31,   6,  'WKUP_GPIO0_57'),
+    (32,  12,  'GPIO0_35'     ),
+    (33,  13,  'GPIO0_51'     ),
+    (35,  19,  'GPIO0_47'     ),
+    (36,  16,  'GPIO0_41'     ),
+    (37,  26,  'GPIO0_27'     ),
+    (38,  20,  'GPIO0_48'     ),
+    (40,  21,  'GPIO0_45'     ),
+]
+
 all_pins = {
     'J721E_SK': j721e_sk_pin_defs, # all non hw-pwm pins
     'AM68_SK': am68_sk_pin_defs, # all non hw-pwm pins
+    'AM69_SK': am69_sk_pin_defs, # all non hw-pwm pins
 }
 
 pin_defs = all_pins.get(GPIO.model)
