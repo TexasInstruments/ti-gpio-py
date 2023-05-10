@@ -25,16 +25,16 @@ import time
 
 all_pwm_pins = {
     'J721E_SK': {
-        'sw_pwm': [11, 12, 15, 16], # Can be any valid GPIO pins
-        'hw_pwm': [29, 31, 32, 33]  # Designated HW PWM pins
+        'sw_pwm': [11,12,15,16], # Can be any valid GPIO pins
+        'hw_pwm': [29,31,32,33]  # Designated HW PWM pins
         },
     'AM68_SK': {
-        'sw_pwm': [11, 12, 15, 16], # Can be any valid GPIO pins
-        'hw_pwm': []  # Designated HW PWM pins
+        'sw_pwm': [7,15,19,21,22,23,24,26,29,31], # Can be any valid GPIO pins
+        'hw_pwm': [32,33,36]  # Designated HW PWM pins
         },
     'AM69_SK': {
-        'sw_pwm': [11, 12, 15, 16], # Can be any valid GPIO pins
-        'hw_pwm': []  # Designated HW PWM pins
+        'sw_pwm': [7,15,19,21,22,23,24,26,29,31], # Can be any valid GPIO pins
+        'hw_pwm': [32,33,36]  # Designated HW PWM pins
         },
 }
 
@@ -48,6 +48,7 @@ def main():
 
         # Board pin-numbering scheme
         GPIO.setmode(GPIO.BOARD)
+
         # set pin as an output pin with optional initial state of HIGH
         GPIO.setup(pin, GPIO.OUT, initial=GPIO.HIGH)
         p = GPIO.PWM(pin, 50)

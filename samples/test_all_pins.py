@@ -35,12 +35,12 @@ pin_datas = {
     'AM68_SK': {
         'unimplemented': (),
         'input_only': (),
-        'hw_pwm': (),
+        'hw_pwm': (32, 33, 36), # HW PWMs to skip for this test
     },
     'AM69_SK': {
         'unimplemented': (),
         'input_only': (),
-        'hw_pwm': (),
+        'hw_pwm': (32, 33, 36), # HW PWMs to skip for this test
     },
 }
 
