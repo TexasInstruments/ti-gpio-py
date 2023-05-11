@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # Copyright (c) 2019-2020, NVIDIA CORPORATION. All rights reserved.
-# Copyright (c) 2021, Texas Instruments Incorporated. All rights reserved.
+# Copyright (c) 2021-2023, Texas Instruments Incorporated. All rights reserved.
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
 # to deal in the Software without restriction, including without limitation
@@ -24,33 +24,67 @@ import sys
 
 import RPi.GPIO as GPIO
 
-pin_defs = [
+j721e_sk_pin_defs = [
 #    BOARD BCM SOC
-    ( 7,   4, 'GPIO0_7'),
-    ( 8,  14, 'GPIO0_70'),
-    (10,  15, 'GPIO0_81'),
-    (11,  17, 'GPIO0_71'),
-    (12,  18, 'GPIO0_1'),
-    (13,  27, 'GPIO0_82'),
-    (15,  22, 'GPIO0_11'),
-    (16,  23, 'GPIO0_5'),
-    (18,  24, 'GPIO0_12'),
+    ( 7,   4, 'GPIO0_7'  ),
+    ( 8,  14, 'GPIO0_70' ),
+    (10,  15, 'GPIO0_81' ),
+    (11,  17, 'GPIO0_71' ),
+    (12,  18, 'GPIO0_1'  ),
+    (13,  27, 'GPIO0_82' ),
+    (15,  22, 'GPIO0_11' ),
+    (16,  23, 'GPIO0_5'  ),
+    (18,  24, 'GPIO0_12' ),
     (19,  10, 'GPIO0_101'),
     (21,   9, 'GPIO0_107'),
-    (22,  25, 'GPIO0_8'),
+    (22,  25, 'GPIO0_8'  ),
     (23,  11, 'GPIO0_103'),
     (24,   8, 'GPIO0_102'),
     (26,   7, 'GPIO0_108'),
-    #(29,   5, 'GPIO0_93'),
-    #(31,   6, 'GPIO0_94'),
-    #(32,  12, 'GPIO0_98'),
-    #(33,  13, 'GPIO0_99'),
-    (35,  19, 'GPIO0_2'),
-    (36,  16, 'GPIO0_97'),
+    (35,  19, 'GPIO0_2'  ),
+    (36,  16, 'GPIO0_97' ),
     (37,  26, 'GPIO0_115'),
-    (38,  20, 'GPIO0_3'),
-    (40,  21, 'GPIO0_4')
+    (38,  20, 'GPIO0_3'  ),
+    (40,  21, 'GPIO0_4'  )
 ]
+
+am68_sk_pin_defs = [
+#    BOARD BCM SOC
+    ( 8,  14, 'GPIO0_1'      ),
+    (10,  15, 'GPIO0_2'      ),
+    (11,  17, 'GPIO0_42'     ),
+    (12,  18, 'GPIO0_46'     ),
+    (13,  27, 'GPIO0_36'     ),
+    (16,  23, 'GPIO0_3'      ),
+    (18,  24, 'GPIO0_13'     ),
+    (35,  19, 'GPIO0_47'     ),
+    (37,  26, 'GPIO0_27'     ),
+    (38,  20, 'GPIO0_48'     ),
+    (40,  21, 'GPIO0_45'     )
+]
+
+am69_sk_pin_defs = [
+#    BOARD BCM SOC
+    ( 8,  14,  'GPIO0_1'      ),
+    (10,  15,  'GPIO0_2'      ),
+    (11,  17,  'GPIO0_42'     ),
+    (12,  18,  'GPIO0_46'     ),
+    (13,  27,  'GPIO0_36'     ),
+    (16,  23,  'GPIO0_3'      ),
+    (18,  24,  'GPIO0_13'     ),
+    (35,  19,  'GPIO0_47'     ),
+    (37,  26,  'GPIO0_27'     ),
+    (38,  20,  'GPIO0_48'     ),
+    (40,  21,  'GPIO0_45'     ),
+]
+
+all_pins = {
+    'J721E_SK': j721e_sk_pin_defs, # all non hw-pwm pins
+    'AM68_SK': am68_sk_pin_defs, # all non hw-pwm pins
+    'AM69_SK': am69_sk_pin_defs, # all non hw-pwm pins
+}
+
+pin_defs = all_pins.get(GPIO.model)
 
 def pin_data(offset, table):
     return [t[offset] for t in table]

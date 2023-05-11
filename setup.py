@@ -1,5 +1,5 @@
 # Copyright (c) 2020, NVIDIA CORPORATION. All rights reserved.
-# Copyright (c) 2021, Texas Instruments Incorporated. All rights reserved.
+# Copyright (c) 2021-2023, Texas Instruments Incorporated. All rights reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -30,7 +30,7 @@ classifiers = ['Operating System :: POSIX :: Linux',
                'Topic :: System :: Hardware']
 
 setup(name                          = 'TI.GPIO',
-      version                       = '1.0.0',
+      version                       = '1.1.0',
       author                        = 'TI',
       author_email                  = 'vijayp@ti.com',
       description                   = 'A module to control TI SK GPIO channels',
