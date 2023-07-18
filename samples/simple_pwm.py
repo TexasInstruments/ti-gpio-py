@@ -24,13 +24,14 @@ import RPi.GPIO as GPIO
 import time
 
 output_pins = {
-    'J721E_SK': 32,
-    'AM68_SK': 32,
-    'AM69_SK': 32,
+    "J721E_SK": 32,
+    "AM68_SK": 32,
+    "AM69_SK": 32,
 }
 output_pin = output_pins.get(GPIO.model, None)
 if output_pin is None:
-    raise Exception('PWM not supported on this board')
+    raise Exception("PWM not supported on this board")
+
 
 def main():
     # Pin Setup:
@@ -54,12 +55,13 @@ def main():
             val += incr
             p.ChangeDutyCycle(val)
     except KeyboardInterrupt:
-            pass
+        pass
     finally:
-            pass
+        pass
 
     p.stop()
     GPIO.cleanup()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

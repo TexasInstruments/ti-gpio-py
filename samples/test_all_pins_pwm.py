@@ -24,23 +24,24 @@ import RPi.GPIO as GPIO
 import time
 
 all_pwm_pins = {
-    'J721E_SK': {
-        'sw_pwm': [11,12,15,16], # Can be any valid GPIO pins
-        'hw_pwm': [29,31,32,33]  # Designated HW PWM pins
-        },
-    'AM68_SK': {
-        'sw_pwm': [7,15,19,21,22,23,24,26,29,31], # Can be any valid GPIO pins
-        'hw_pwm': [32,33,36]  # Designated HW PWM pins
-        },
-    'AM69_SK': {
-        'sw_pwm': [7,15,19,21,22,23,24,26,29,31], # Can be any valid GPIO pins
-        'hw_pwm': [32,33,36]  # Designated HW PWM pins
-        },
+    "J721E_SK": {
+        "sw_pwm": [11, 12, 15, 16],  # Can be any valid GPIO pins
+        "hw_pwm": [29, 31, 32, 33],  # Designated HW PWM pins
+    },
+    "AM68_SK": {
+        "sw_pwm": [7, 15, 19, 21, 22, 23, 24, 26, 29, 31],  # Can be any valid GPIO pins
+        "hw_pwm": [32, 33, 36],  # Designated HW PWM pins
+    },
+    "AM69_SK": {
+        "sw_pwm": [7, 15, 19, 21, 22, 23, 24, 26, 29, 31],  # Can be any valid GPIO pins
+        "hw_pwm": [32, 33, 36],  # Designated HW PWM pins
+    },
 }
 
 pin_data = all_pwm_pins.get(GPIO.model)
 
-pwm_pins = pin_data['sw_pwm'] + pin_data['hw_pwm']
+pwm_pins = pin_data["sw_pwm"] + pin_data["hw_pwm"]
+
 
 def main():
     for pin in pwm_pins:
@@ -75,5 +76,6 @@ def main():
         p.stop()
         GPIO.cleanup()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

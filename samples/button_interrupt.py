@@ -28,6 +28,7 @@ led_pin_1 = 12
 led_pin_2 = 13
 but_pin = 18
 
+
 # blink LED 2 quickly 5 times when button pressed
 def blink(channel):
     print("Blink LED 2")
@@ -36,6 +37,7 @@ def blink(channel):
         time.sleep(0.5)
         GPIO.output(led_pin_2, GPIO.LOW)
         time.sleep(0.5)
+
 
 def main():
     # Pin Setup:
@@ -59,5 +61,6 @@ def main():
     finally:
         GPIO.cleanup()  # cleanup all GPIOs
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
