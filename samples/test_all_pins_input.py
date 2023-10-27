@@ -25,80 +25,79 @@ import sys
 import RPi.GPIO as GPIO
 
 j721e_sk_pin_defs = [
-#    BOARD BCM SOC
-    ( 7,   4, 'GPIO0_7'  ),
-    ( 8,  14, 'GPIO0_70' ),
-    (10,  15, 'GPIO0_81' ),
-    (11,  17, 'GPIO0_71' ),
-    (12,  18, 'GPIO0_1'  ),
-    (13,  27, 'GPIO0_82' ),
-    (15,  22, 'GPIO0_11' ),
-    (16,  23, 'GPIO0_5'  ),
-    (18,  24, 'GPIO0_12' ),
-    (19,  10, 'GPIO0_101'),
-    (21,   9, 'GPIO0_107'),
-    (22,  25, 'GPIO0_8'  ),
-    (23,  11, 'GPIO0_103'),
-    (24,   8, 'GPIO0_102'),
-    (26,   7, 'GPIO0_108'),
-    (35,  19, 'GPIO0_2'  ),
-    (36,  16, 'GPIO0_97' ),
-    (37,  26, 'GPIO0_115'),
-    (38,  20, 'GPIO0_3'  ),
-    (40,  21, 'GPIO0_4'  )
+    #    BOARD BCM SOC
+    (7, 4, "GPIO0_7"),
+    (8, 14, "GPIO0_70"),
+    (10, 15, "GPIO0_81"),
+    (11, 17, "GPIO0_71"),
+    (12, 18, "GPIO0_1"),
+    (13, 27, "GPIO0_82"),
+    (15, 22, "GPIO0_11"),
+    (16, 23, "GPIO0_5"),
+    (18, 24, "GPIO0_12"),
+    (19, 10, "GPIO0_101"),
+    (21, 9, "GPIO0_107"),
+    (22, 25, "GPIO0_8"),
+    (23, 11, "GPIO0_103"),
+    (24, 8, "GPIO0_102"),
+    (26, 7, "GPIO0_108"),
+    (35, 19, "GPIO0_2"),
+    (36, 16, "GPIO0_97"),
+    (37, 26, "GPIO0_115"),
+    (38, 20, "GPIO0_3"),
+    (40, 21, "GPIO0_4"),
 ]
 
 am68_sk_pin_defs = [
-#    BOARD BCM SOC
-    ( 8,  14, 'GPIO0_1'      ),
-    (10,  15, 'GPIO0_2'      ),
-    (11,  17, 'GPIO0_42'     ),
-    (12,  18, 'GPIO0_46'     ),
-    (13,  27, 'GPIO0_36'     ),
-    (16,  23, 'GPIO0_3'      ),
-    (18,  24, 'GPIO0_13'     ),
-    (35,  19, 'GPIO0_47'     ),
-    (37,  26, 'GPIO0_27'     ),
-    (38,  20, 'GPIO0_48'     ),
-    (40,  21, 'GPIO0_45'     )
+    #    BOARD BCM SOC
+    (8, 14, "GPIO0_1"),
+    (10, 15, "GPIO0_2"),
+    (11, 17, "GPIO0_42"),
+    (12, 18, "GPIO0_46"),
+    (13, 27, "GPIO0_36"),
+    (16, 23, "GPIO0_3"),
+    (18, 24, "GPIO0_13"),
+    (35, 19, "GPIO0_47"),
+    (37, 26, "GPIO0_27"),
+    (38, 20, "GPIO0_48"),
+    (40, 21, "GPIO0_45"),
 ]
 
 am69_sk_pin_defs = [
-#    BOARD BCM SOC
-    ( 8,  14,  'GPIO0_1'      ),
-    (10,  15,  'GPIO0_2'      ),
-    (11,  17,  'GPIO0_42'     ),
-    (12,  18,  'GPIO0_46'     ),
-    (13,  27,  'GPIO0_36'     ),
-    (16,  23,  'GPIO0_3'      ),
-    (18,  24,  'GPIO0_13'     ),
-    (35,  19,  'GPIO0_47'     ),
-    (37,  26,  'GPIO0_27'     ),
-    (38,  20,  'GPIO0_48'     ),
-    (40,  21,  'GPIO0_45'     ),
+    #    BOARD BCM SOC
+    (8, 14, "GPIO0_1"),
+    (10, 15, "GPIO0_2"),
+    (11, 17, "GPIO0_42"),
+    (12, 18, "GPIO0_46"),
+    (13, 27, "GPIO0_36"),
+    (16, 23, "GPIO0_3"),
+    (18, 24, "GPIO0_13"),
+    (35, 19, "GPIO0_47"),
+    (37, 26, "GPIO0_27"),
+    (38, 20, "GPIO0_48"),
+    (40, 21, "GPIO0_45"),
 ]
 
 all_pins = {
-    'J721E_SK': j721e_sk_pin_defs, # all non hw-pwm pins
-    'AM68_SK': am68_sk_pin_defs, # all non hw-pwm pins
-    'AM69_SK': am69_sk_pin_defs, # all non hw-pwm pins
+    "J721E_SK": j721e_sk_pin_defs,  # all non hw-pwm pins
+    "AM68_SK": am68_sk_pin_defs,  # all non hw-pwm pins
+    "AM69_SK": am69_sk_pin_defs,  # all non hw-pwm pins
 }
 
 pin_defs = all_pins.get(GPIO.model)
 
+
 def pin_data(offset, table):
     return [t[offset] for t in table]
 
+
 channel_data = {
-    GPIO.BOARD: {'name': "GPIO.BOARD", "pins": pin_data(0, pin_defs)},
-    GPIO.BCM:   {'name': "GPIO.BCM",   "pins": pin_data(1, pin_defs)},
-    GPIO.SOC:   {'name': "GPIO.SOC",   "pins": pin_data(2, pin_defs)},
+    GPIO.BOARD: {"name": "GPIO.BOARD", "pins": pin_data(0, pin_defs)},
+    GPIO.BCM: {"name": "GPIO.BCM", "pins": pin_data(1, pin_defs)},
+    GPIO.SOC: {"name": "GPIO.SOC", "pins": pin_data(2, pin_defs)},
 }
 
-pin_status = {
-        GPIO.HIGH: "GPIO.HIGH",
-        GPIO.LOW:  "GPIO.LOW"
-        }
+pin_status = {GPIO.HIGH: "GPIO.HIGH", GPIO.LOW: "GPIO.LOW"}
 
 status = 0
 for board in [GPIO.BOARD, GPIO.BCM, GPIO.SOC]:
@@ -117,10 +116,18 @@ for board in [GPIO.BOARD, GPIO.BCM, GPIO.SOC]:
             GPIO.setup(pin, GPIO.IN)
             value = GPIO.input(pin)
             if value != v:
-                print("******* FAILED: Pin [{}] value check. Expecting {} but got {} *******".format(pin, pin_status[v], pin_status[value]))
+                print(
+                    "******* FAILED: Pin [{}] value check. Expecting {} but got {} *******".format(
+                        pin, pin_status[v], pin_status[value]
+                    )
+                )
                 status = -1
             else:
-                print("        PASSED: Pin [{}] value check. Expecting {} and got {}".format(pin, pin_status[v], pin_status[value]))
+                print(
+                    "        PASSED: Pin [{}] value check. Expecting {} and got {}".format(
+                        pin, pin_status[v], pin_status[value]
+                    )
+                )
             GPIO.cleanup()
 
 # Return the status

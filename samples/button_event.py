@@ -34,6 +34,7 @@ import time
 led_pin = 12  # Board pin 12
 but_pin = 18  # Board pin 18
 
+
 def main():
     # Pin Setup:
     GPIO.setmode(GPIO.BOARD)  # BOARD pin-numbering scheme
@@ -57,5 +58,6 @@ def main():
     finally:
         GPIO.cleanup()  # cleanup all GPIOs
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

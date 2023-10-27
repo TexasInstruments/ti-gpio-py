@@ -27,6 +27,7 @@ import time
 led_pin = 12  # BOARD pin 12
 but_pin = 18  # BOARD pin 18
 
+
 def main():
     prev_value = None
 
@@ -49,5 +50,6 @@ def main():
     finally:
         GPIO.cleanup()  # cleanup all GPIO
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

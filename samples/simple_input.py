@@ -26,6 +26,7 @@ import time
 # Pin Definitions
 input_pin = 18  # BCM pin 18, BOARD pin 12
 
+
 def main():
     prev_value = None
 
@@ -41,12 +42,12 @@ def main():
                     value_str = "HIGH"
                 else:
                     value_str = "LOW"
-                print("Value read from pin {} : {}".format(input_pin,
-                                                           value_str))
+                print("Value read from pin {} : {}".format(input_pin, value_str))
                 prev_value = value
             time.sleep(1)
     finally:
         GPIO.cleanup()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

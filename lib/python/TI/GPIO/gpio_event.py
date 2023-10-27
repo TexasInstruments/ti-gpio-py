@@ -66,7 +66,7 @@ _mutex = thread.allocate_lock()
 class _Gpios:
     def __init__(self, gpio_name, edge=None, bouncetime=None):
         self.edge = edge
-        self.value_fd = open(ROOT + "/" + gpio_name + "/value", 'r')
+        self.value_fd = open(ROOT + "/" + gpio_name + "/value", "r")
         self.initial_thread = True
         self.initial_wait = True
         self.thread_added = False
@@ -93,8 +93,9 @@ def add_edge_detect(gpio, gpio_name, edge, bouncetime):
     # event already added
     elif res == edge:
         gpios = _get_gpio_object(gpio)
-        if ((bouncetime is not None and gpios.bouncetime != bouncetime) or
-                gpios.thread_added):
+        if (
+            bouncetime is not None and gpios.bouncetime != bouncetime
+        ) or gpios.thread_added:
             return 1
     else:
         return 1
@@ -172,7 +173,7 @@ def _get_gpio_object(gpio):
 def _set_edge(gpio_name, edge):
     edge_path = ROOT + "/" + gpio_name + "/edge"
 
-    with open(edge_path, 'w') as edge_file:
+    with open(edge_path, "w") as edge_file:
         edge_file.write(_edge_str[edge])
 
 
@@ -226,11 +227,13 @@ def _poll_thread():
             else:
                 # debounce the input event for the specified bouncetime
                 time = datetime.now()
-                time = time.second * 1E6 + time.microsecond
-                if (gpio_obj.bouncetime is None or
-                        (time - gpio_obj.lastcall >
-                         gpio_obj.bouncetime * 1000) or
-                        (gpio_obj.lastcall == 0) or gpio_obj.lastcall > time):
+                time = time.second * 1e6 + time.microsecond
+                if (
+                    gpio_obj.bouncetime is None
+                    or (time - gpio_obj.lastcall > gpio_obj.bouncetime * 1000)
+                    or (gpio_obj.lastcall == 0)
+                    or gpio_obj.lastcall > time
+                ):
                     gpio_obj.lastcall = time
                     gpio_obj.event_occurred = True
                     _gpio_event_list[key] = gpio_obj
@@ -271,8 +274,7 @@ def blocking_wait_for_edge(gpio, gpio_name, edge, bouncetime, timeout):
     # get existing record
     if added_edge == edge:
         gpio_obj = _get_gpio_object(gpio)
-        if (gpio_obj.bouncetime is not None and
-                gpio_obj.bouncetime != bouncetime):
+        if gpio_obj.bouncetime is not None and gpio_obj.bouncetime != bouncetime:
             return -1
 
     # not added. create new record
@@ -300,11 +302,9 @@ def blocking_wait_for_edge(gpio, gpio_name, edge, bouncetime, timeout):
 
     # register gpio value fd with epoll
     try:
-        _epoll_fd_blocking.register(gpio_obj.value_fd, EPOLLIN | EPOLLET |
-                                    EPOLLPRI)
+        _epoll_fd_blocking.register(gpio_obj.value_fd, EPOLLIN | EPOLLET | EPOLLPRI)
     except IOError:
-        print("IOError occured while register epoll blocking for GPIO %s"
-              % gpio)
+        print("IOError occured while register epoll blocking for GPIO %s" % gpio)
         return -2
 
     while not finished:
@@ -322,10 +322,13 @@ def blocking_wait_for_edge(gpio, gpio_name, edge, bouncetime, timeout):
         # debounce input for specified time
         else:
             time = datetime.now()
-            time = time.second * 1E6 + time.microsecond
-            if ((gpio_obj.bouncetime is None) or
-                    (time - gpio_obj.lastcall > gpio_obj.bouncetime * 1000) or
-                    (gpio_obj.lastcall == 0) or (gpio_obj.lastcall > time)):
+            time = time.second * 1e6 + time.microsecond
+            if (
+                (gpio_obj.bouncetime is None)
+                or (time - gpio_obj.lastcall > gpio_obj.bouncetime * 1000)
+                or (gpio_obj.lastcall == 0)
+                or (gpio_obj.lastcall > time)
+            ):
                 gpio_obj.lastcall = time
                 _mutex.acquire()
                 _gpio_event_list[gpio] = gpio_obj

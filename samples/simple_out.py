@@ -26,6 +26,7 @@ import time
 # Pin Definitions
 output_pin = 18  # BCM pin 18, BOARD pin 12
 
+
 def main():
     # Pin Setup:
     GPIO.setmode(GPIO.BCM)  # BCM pin-numbering scheme from Raspberry Pi
@@ -44,5 +45,6 @@ def main():
     finally:
         GPIO.cleanup()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

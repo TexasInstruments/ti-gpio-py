@@ -21,27 +21,30 @@
 
 from setuptools import setup
 
-classifiers = ['Operating System :: POSIX :: Linux',
-               'License :: OSI Approved :: MIT License',
-               'Intended Audience :: Developers',
-               'Programming Language :: Python :: 2.7',
-               'Programming Language :: Python :: 3',
-               'Topic :: Software Development',
-               'Topic :: System :: Hardware']
+classifiers = [
+    "Operating System :: POSIX :: Linux",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 2.7",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development",
+    "Topic :: System :: Hardware",
+]
 
-setup(name                          = 'TI.GPIO',
-      version                       = '1.1.0',
-      author                        = 'TI',
-      author_email                  = 'vijayp@ti.com',
-      description                   = 'A module to control TI SK GPIO channels',
-      long_description              = open('README.md').read(),
-      long_description_content_type = 'text/markdown',
-      license                       = 'MIT',
-      keywords                      = 'TI GPIO',
-      url                           = 'https://github.com/TexasInstruments/ti-gpio-py',
-      classifiers                   = classifiers,
-      package_dir                   = {'': 'lib/python/'},
-      packages                      = ['TI', 'TI.GPIO', 'RPi', 'RPi.GPIO'],
-      package_data                  = {},
-      include_package_data          = True,
+setup(
+    name="TI.GPIO",
+    version="1.1.0",
+    author="TI",
+    author_email="vijayp@ti.com",
+    description="A module to control TI SK GPIO channels",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    license="MIT",
+    keywords="TI GPIO",
+    url="https://github.com/TexasInstruments/ti-gpio-py",
+    classifiers=classifiers,
+    package_dir={"": "lib/python/"},
+    packages=["TI", "TI.GPIO", "RPi", "RPi.GPIO"],
+    package_data={},
+    include_package_data=True,
 )

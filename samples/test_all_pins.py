@@ -27,40 +27,64 @@ import time
 import RPi.GPIO as GPIO
 
 pin_datas = {
-    'J721E_SK': {
-        'unimplemented': (),
-        'input_only': (),
-        'hw_pwm': (29, 31, 32, 33), # HW PWMs to skip for this test
+    "J721E_SK": {
+        "unimplemented": (),
+        "input_only": (),
+        "hw_pwm": (29, 31, 32, 33),  # HW PWMs to skip for this test
     },
-    'AM68_SK': {
-        'unimplemented': (),
-        'input_only': (),
-        'hw_pwm': (32, 33, 36), # HW PWMs to skip for this test
+    "AM68_SK": {
+        "unimplemented": (),
+        "input_only": (),
+        "hw_pwm": (32, 33, 36),  # HW PWMs to skip for this test
     },
-    'AM69_SK': {
-        'unimplemented': (),
-        'input_only': (),
-        'hw_pwm': (32, 33, 36), # HW PWMs to skip for this test
+    "AM69_SK": {
+        "unimplemented": (),
+        "input_only": (),
+        "hw_pwm": (32, 33, 36),  # HW PWMs to skip for this test
     },
 }
 
 pin_data = pin_datas.get(GPIO.model)
-all_pins = (7, 8, 10, 11, 12, 13, 15, 16, 18, 19, 21, 22, 23, 24, 26,
-            29, 31, 32, 33, 35, 36, 37, 38, 40,)
+all_pins = (
+    7,
+    8,
+    10,
+    11,
+    12,
+    13,
+    15,
+    16,
+    18,
+    19,
+    21,
+    22,
+    23,
+    24,
+    26,
+    29,
+    31,
+    32,
+    33,
+    35,
+    36,
+    37,
+    38,
+    40,
+)
 
 if len(sys.argv) > 1:
     all_pins = map(int, sys.argv[1:])
 
 for pin in all_pins:
-    if pin in pin_data['unimplemented']:
+    if pin in pin_data["unimplemented"]:
         print("Pin %d unimplemented; skipping" % pin)
         continue
 
-    if pin in pin_data['input_only']:
+    if pin in pin_data["input_only"]:
         print("Pin %d input-only; skipping" % pin)
         continue
 
-    if pin in pin_data['hw_pwm']:
+    if pin in pin_data["hw_pwm"]:
         print("Pin %d hw_pwm; skipping" % pin)
         continue
 
