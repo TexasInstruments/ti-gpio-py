@@ -36,6 +36,10 @@ all_pwm_pins = {
         "sw_pwm": [7, 15, 19, 21, 22, 23, 24, 26, 29, 31],  # Can be any valid GPIO pins
         "hw_pwm": [32, 33, 36],  # Designated HW PWM pins
     },
+    "AM62A_SK": {
+        "sw_pwm": [13, 15, 16, 18, 22, 31, 32, 37],  # Can be any valid GPIO pins
+        "hw_pwm": [12, 33, 35, 36],  # Designated HW PWM pins
+    },
 }
 
 pin_data = all_pwm_pins.get(GPIO.model)
