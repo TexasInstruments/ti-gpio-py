@@ -132,7 +132,7 @@ AM69_SK_PIN_DEFS = [
     (42, {}, "600000.gpio", 11, 17, "GPIO0_42", None, None),
     (46, {}, "600000.gpio", 12, 18, "GPIO0_46", None, None),
     (36, {}, "600000.gpio", 13, 27, "GPIO0_36", None, None),
-    (49, {}, "42110000.gpio", 15, 22, "GPIO0_49", None, None),
+    (49, {}, "42110000.gpio", 15, 22, "WKUP_GPIO0_49", None, None),
     (3, {}, "600000.gpio", 16, 23, "GPIO0_3", None, None),
     (13, {}, "600000.gpio", 18, 24, "GPIO0_13", None, None),
     (1, {}, "42110000.gpio", 19, 10, "WKUP_GPIO0_1", None, None),
