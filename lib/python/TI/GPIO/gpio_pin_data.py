@@ -159,8 +159,8 @@ compats_am69sk = (
 
 AM62A_SK_PIN_DEFS = [
     #   OFFSET     sysfs_dir      BOARD BCM SOC_NAME    PWM_SysFs  PWM_Id
-    (44, {}, "600000.gpio", 3, 2, "GPIO0_44", None, None),
-    (43, {}, "600000.gpio", 5, 3, "GPIO0_43", None, None),
+    (44, {}, "600000.gpio", 3, 2, "I2C2_SDA", None, None),
+    (43, {}, "600000.gpio", 5, 3, "I2C2_SCL", None, None),
     (30, {}, "601000.gpio", 7, 4, "GPIO1_30", None, None),
     (25, {}, "601000.gpio", 8, 14, "GPIO1_25", None, None),
     (24, {}, "601000.gpio", 10, 15, "GPIO1_24", None, None),
