@@ -47,6 +47,11 @@ pin_datas = {
         "input_only": (),
         "hw_pwm": (12, 33, 35, 36),  # HW PWMs to skip for this test
     },
+    "AM62P_SK": {
+        "unimplemented": (),
+        "input_only": (),
+        "hw_pwm": (24, 26, 33, 36),  # HW PWMs to skip for this test
+    },
 }
 
 pin_data = pin_datas.get(GPIO.model)
