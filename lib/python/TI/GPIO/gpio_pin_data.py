@@ -26,6 +26,7 @@ J721E_SK = "J721E_SK"
 AM68_SK = "AM68_SK"
 AM69_SK = "AM69_SK"
 AM62A_SK = "AM62A_SK"
+AM62P_SK = "AM62P_SK"
 
 OFFSET_ENTRY = 0
 GPIO_NAME_ENTRY = 1  # Currently unused
@@ -192,6 +193,41 @@ compats_am62ask = (
     "ti,am62a7",
 )
 
+AM62P_SK_PIN_DEFS = [
+    #   OFFSET     sysfs_dir      BOARD BCM SOC_NAME    PWM_SysFs  PWM_Id
+    (44, {}, "600000.gpio", 3, 2, "I2C2_SDA", None, None),
+    (43, {}, "600000.gpio", 5, 3, "I2C2_SCL", None, None),
+    (30, {}, "601000.gpio", 7, 4, "GPIO1_30", None, None),
+    (25, {}, "601000.gpio", 8, 14, "GPIO1_25", None, None),
+    (24, {}, "601000.gpio", 10, 15, "GPIO1_24", None, None),
+    (11, {}, "601000.gpio", 11, 17, "GPIO1_11", None, None),
+    (14, {}, "601000.gpio", 12, 18, "GPIO1_14", None, None),
+    (42, {}, "600000.gpio", 13, 27, "GPIO0_42", None, None),
+    (22, {}, "601000.gpio", 15, 22, "GPIO1_22", None, None),
+    (38, {}, "600000.gpio", 16, 23, "GPIO0_38", None, None),
+    (39, {}, "600000.gpio", 18, 24, "GPIO0_39", None, None),
+    (18, {}, "601000.gpio", 19, 10, "GPIO1_18", None, None),
+    (19, {}, "601000.gpio", 21, 9, "GPIO1_19", None, None),
+    (14, {}, "600000.gpio", 22, 25, "GPIO0_14", None, None),
+    (17, {}, "601000.gpio", 23, 11, "GPIO1_17", None, None),
+    (15, {}, "601000.gpio", 24, 8, "GPIO1_15", "23000000.pwm", 0),
+    (16, {}, "601000.gpio", 26, 7, "GPIO1_16", "23000000.pwm", 1),
+    (36, {}, "600000.gpio", 29, 5, "GPIO0_36", None, None),
+    (33, {}, "600000.gpio", 31, 6, "GPIO0_33", None, None),
+    (40, {}, "600000.gpio", 32, 12, "GPIO0_40", None, None),
+    (10, {}, "601000.gpio", 33, 13, "GPIO1_10", "23010000.pwm", 1),
+    (13, {}, "601000.gpio", 35, 19, "GPIO1_13", None, None),
+    (9, {}, "601000.gpio", 36, 16, "GPIO1_09", "23010000.pwm", 0),
+    (41, {}, "600000.gpio", 37, 26, "GPIO0_41", None, None),
+    (8, {}, "601000.gpio", 38, 20, "GPIO1_08", None, None),
+    (7, {}, "601000.gpio", 40, 21, "GPIO1_07", None, None),
+]
+
+compats_am62psk = (
+    "ti,am62p5-sk",
+    "ti,am62p5",
+)
+
 board_gpio_data = {
     J721E_SK: (
         J721E_SK_PIN_DEFS,
@@ -229,6 +265,16 @@ board_gpio_data = {
             "RAM": "4096M",
             "REVISION": "E2",
             "TYPE": "AM62A-SK",
+            "MANUFACTURER": "TI",
+            "PROCESSOR": "ARM A53",
+        },
+    ),
+    AM62P_SK: (
+        AM62P_SK_PIN_DEFS,
+        {
+            "RAM": "8192M",
+            "REVISION": "E1",
+            "TYPE": "AM62P-SK",
             "MANUFACTURER": "TI",
             "PROCESSOR": "ARM A53",
         },
@@ -300,6 +346,8 @@ WARNING: and in fact is unlikely to work correctly.
         model = AM69_SK
     elif matches(compats_am62ask):
         model = AM62A_SK
+    elif matches(compats_am62psk):
+        model = AM62P_SK
 
     else:
         raise Exception("Could not determine TI SOC model")
