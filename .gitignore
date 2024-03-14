@@ -3,3 +3,5 @@ dist/
 venv-*/
 *.egg-info/
 .*.swp
+.vscode/
+.gitignore

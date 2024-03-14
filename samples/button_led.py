@@ -24,7 +24,7 @@ import RPi.GPIO as GPIO
 import time
 
 # Pin Definitons:
-led_pin = 11  # BOARD pin 12
+led_pin = 7  # BOARD pin 12
 but_pin = 18  # BOARD pin 18
 
 
