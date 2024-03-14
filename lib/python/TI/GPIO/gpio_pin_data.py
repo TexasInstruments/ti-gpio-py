@@ -182,10 +182,10 @@ AM62A_SK_PIN_DEFS = [
     (40, 2, "600000.gpio", 32, 12, "GPIO0_40", None, None),
     (10, 3, "601000.gpio", 33, 13, "GPIO1_10", "23010000.pwm", 1),
     (13, 3, "601000.gpio", 35, 19, "GPIO1_13", "23000000.pwm", 0),
-    (9,  3, "601000.gpio", 36, 16, "GPIO1_09", "23010000.pwm", 0),
+    (9, 3, "601000.gpio", 36, 16, "GPIO1_09", "23010000.pwm", 0),
     (41, 2, "600000.gpio", 37, 26, "GPIO0_41", None, None),
-    (8,  3, "601000.gpio", 38, 20, "GPIO1_08", None, None),
-    (7,  3, "601000.gpio", 40, 21, "GPIO1_07", None, None),
+    (8, 3, "601000.gpio", 38, 20, "GPIO1_08", None, None),
+    (7, 3, "601000.gpio", 40, 21, "GPIO1_07", None, None),
 ]
 
 compats_am62ask = (
@@ -217,10 +217,10 @@ AM62P_SK_PIN_DEFS = [
     (40, 1, "600000.gpio", 32, 12, "GPIO0_40", None, None),
     (10, 2, "601000.gpio", 33, 13, "GPIO1_10", "23010000.pwm", 1),
     (13, 2, "601000.gpio", 35, 19, "GPIO1_13", None, None),
-    (9,  2, "601000.gpio", 36, 16, "GPIO1_09", "23010000.pwm", 0),
+    (9, 2, "601000.gpio", 36, 16, "GPIO1_09", "23010000.pwm", 0),
     (41, 1, "600000.gpio", 37, 26, "GPIO0_41", None, None),
-    (8,  2, "601000.gpio", 38, 20, "GPIO1_08", None, None),
-    (7,  2, "601000.gpio", 40, 21, "GPIO1_07", None, None),
+    (8, 2, "601000.gpio", 38, 20, "GPIO1_08", None, None),
+    (7, 2, "601000.gpio", 40, 21, "GPIO1_07", None, None),
 ]
 
 compats_am62psk = (
@@ -283,9 +283,7 @@ board_gpio_data = {
 
 
 class ChannelInfo(object):
-    def __init__(
-        self, channel, gpiochip, gpio, pwm_chip_dir, pwm_id
-    ):
+    def __init__(self, channel, gpiochip, gpio, pwm_chip_dir, pwm_id):
         self.channel = channel
         self.gpiochip = gpiochip
         self.gpio = gpio
@@ -362,7 +360,7 @@ def get_data():
                 x[GPIO_CHIP_ENTRY],
                 x[OFFSET_ENTRY],
                 pwm_chip_dir=pwm_dirs.get(x[PWM_SYSFS_DIR_ENTRY], None),
-                pwm_id=x[PWM_ID_ENTRY]
+                pwm_id=x[PWM_ID_ENTRY],
             )
             for x in pin_defs
         }
