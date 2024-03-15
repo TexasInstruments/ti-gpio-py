@@ -31,7 +31,7 @@ def main():
     prev_value = None
 
     # Pin Setup:
-    GPIO.setmode(GPIO.BCM)  # BCM pin-numbering scheme from Raspberry Pi
+    GPIO.setmode(GPIO.BOARD)  # BCM pin-numbering scheme from Raspberry Pi
     GPIO.setup(input_pin, GPIO.IN)  # set pin as an input pin
     print("Starting demo now! Press CTRL+C to exit")
     try:
