@@ -29,6 +29,7 @@ output_pins = {
     "AM69_SK": 32,
     "AM62A_SK": 35,
     "AM62P_SK": 35,
+    "J722S_EVM": 33,
 }
 output_pin = output_pins.get(GPIO.model, None)
 if output_pin is None:

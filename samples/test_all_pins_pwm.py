@@ -81,6 +81,31 @@ all_pwm_pins = {
         ],  # Can be any valid GPIO pins
         "hw_pwm": [24, 26, 33, 36],  # Designated HW PWM pins
     },
+    "J722S_EVM": {
+        "sw_pwm": [
+            7,
+            8,
+            10,
+            11,
+            12,
+            13,
+            15,
+            16,
+            18,
+            19,
+            21,
+            22,
+            23,
+            24,
+            26,
+            32,
+            35,
+            37,
+            38,
+            40,
+        ],  # Can be any valid GPIO pins
+        "hw_pwm": [29, 31, 33],  # Designated HW PWM pins
+    },
 }
 
 pin_data = all_pwm_pins.get(GPIO.model)
