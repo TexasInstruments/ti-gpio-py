@@ -27,6 +27,7 @@ AM68_SK = "AM68_SK"
 AM69_SK = "AM69_SK"
 AM62A_SK = "AM62A_SK"
 AM62P_SK = "AM62P_SK"
+J722S_EVM = "J722S_EVM"
 
 OFFSET_ENTRY = 0
 GPIO_CHIP_ENTRY = 1
@@ -201,7 +202,7 @@ AM62P_SK_PIN_DEFS = [
     (25, 2, "601000.gpio", 8, 14, "GPIO1_25", None, None),
     (24, 2, "601000.gpio", 10, 15, "GPIO1_24", None, None),
     (11, 2, "601000.gpio", 11, 17, "GPIO1_11", None, None),
-    (14, 2, "601000.gpio", 12, 18, "GPIO1_14", None, None),
+    (14, 2, "601000.gpio", 12, 18, "GPIO1_14", "23000000.pwm", 1),
     (42, 1, "600000.gpio", 13, 27, "GPIO0_42", None, None),
     (22, 2, "601000.gpio", 15, 22, "GPIO1_22", None, None),
     (38, 1, "600000.gpio", 16, 23, "GPIO0_38", None, None),
@@ -210,13 +211,13 @@ AM62P_SK_PIN_DEFS = [
     (19, 2, "601000.gpio", 21, 9, "GPIO1_19", None, None),
     (14, 1, "600000.gpio", 22, 25, "GPIO0_14", None, None),
     (17, 2, "601000.gpio", 23, 11, "GPIO1_17", None, None),
-    (15, 2, "601000.gpio", 24, 8, "GPIO1_15", "23000000.pwm", 0),
-    (16, 2, "601000.gpio", 26, 7, "GPIO1_16", "23000000.pwm", 1),
+    (15, 2, "601000.gpio", 24, 8, "GPIO1_15", None, None),
+    (16, 2, "601000.gpio", 26, 7, "GPIO1_16", None, None),
     (36, 1, "600000.gpio", 29, 5, "GPIO0_36", None, None),
     (33, 1, "600000.gpio", 31, 6, "GPIO0_33", None, None),
     (40, 1, "600000.gpio", 32, 12, "GPIO0_40", None, None),
     (10, 2, "601000.gpio", 33, 13, "GPIO1_10", "23010000.pwm", 1),
-    (13, 2, "601000.gpio", 35, 19, "GPIO1_13", None, None),
+    (13, 2, "601000.gpio", 35, 19, "GPIO1_13", "23000000.pwm", 0),
     (9, 2, "601000.gpio", 36, 16, "GPIO1_09", "23010000.pwm", 0),
     (41, 1, "600000.gpio", 37, 26, "GPIO0_41", None, None),
     (8, 2, "601000.gpio", 38, 20, "GPIO1_08", None, None),
@@ -226,6 +227,41 @@ AM62P_SK_PIN_DEFS = [
 compats_am62psk = (
     "ti,am62p5-sk",
     "ti,am62p5",
+)
+
+J722S_EVM_PIN_DEFS = [
+    #   OFFSET   GPIOCHIP_X  sysfs_dir      BOARD BCM SOC_NAME    PWM_SysFs  PWM_Id
+    (18, 1, "4201000.gpio", 3, 2, "I2C2_SDA", None, None),
+    (17, 1, "4201000.gpio", 5, 3, "I2C2_SCL", None, None),
+    (38, 2, "600000.gpio", 7, 4, "GPIO0_38", None, None),
+    (14, 3, "601000.gpio", 8, 14, "GPIO1_14", None, None),
+    (13, 3, "601000.gpio", 10, 15, "GPIO1_13", None, None),
+    (8, 3, "601000.gpio", 11, 17, "GPIO1_08", None, None),
+    (11, 3, "601000.gpio", 12, 18, "GPIO1_11", None, None),
+    (33, 2, "600000.gpio", 13, 27, "GPIO0_33", None, None),
+    (7, 3, "601000.gpio", 15, 22, "GPIO1_07", None, None),
+    (7, 1, "4201000.gpio", 16, 23, "MCU_GPIO0_07", None, None),
+    (8, 1, "4201000.gpio", 18, 24, "MCU_GPIO0_08", None, None),
+    (3, 1, "4201000.gpio", 19, 10, "MCU_GPIO0_03", None, None),
+    (4, 1, "4201000.gpio", 21, 9, "MCU_GPIO0_04", None, None),
+    (42, 2, "600000.gpio", 22, 25, "GPIO0_42", None, None),
+    (2, 1, "4201000.gpio", 23, 11, "MCU_GPIO0_02", None, None),
+    (0, 1, "4201000.gpio", 24, 8, "MCU_GPIO0_00", None, None),
+    (1, 1, "4201000.gpio", 26, 7, "MCU_GPIO0_01", None, None),
+    (15, 3, "601000.gpio", 29, 5, "GPIO1_15", "23000000.pwm", 0),
+    (17, 3, "601000.gpio", 31, 6, "GPIO1_17", "23010000.pwm", 1),
+    (16, 3, "601000.gpio", 32, 12, "GPIO1_16", None, None),
+    (18, 3, "601000.gpio", 33, 13, "GPIO1_18", "23010000.pwm", 0),
+    (12, 3, "601000.gpio", 35, 19, "GPIO1_12", None, None),
+    (41, 2, "600000.gpio", 36, 16, "GPIO0_41", None, None),
+    (36, 2, "600000.gpio", 37, 26, "GPIO0_36", None, None),
+    (10, 3, "601000.gpio", 38, 20, "GPIO1_10", None, None),
+    (9, 3, "601000.gpio", 40, 21, "GPIO1_09", None, None),
+]
+
+compats_j722sevm = (
+    "ti,j722s-evm",
+    "ti,j722s",
 )
 
 board_gpio_data = {
@@ -279,6 +315,16 @@ board_gpio_data = {
             "PROCESSOR": "ARM A53",
         },
     ),
+    J722S_EVM: (
+        J722S_EVM_PIN_DEFS,
+        {
+            "RAM": "8192M",
+            "REVISION": "E1",
+            "TYPE": "J722S_EVM",
+            "MANUFACTURER": "TI",
+            "PROCESSOR": "ARM A53",
+        },
+    ),
 }
 
 
@@ -313,6 +359,8 @@ def get_data():
         model = AM62A_SK
     elif matches(compats_am62psk):
         model = AM62P_SK
+    elif matches(compats_j722sevm):
+        model = J722S_EVM
 
     else:
         raise Exception("Could not determine TI SOC model")

@@ -52,6 +52,11 @@ pin_datas = {
         "input_only": (),
         "hw_pwm": (24, 26, 33, 36),  # HW PWMs to skip for this test
     },
+    "J722S_EVM": {
+        "unimplemented": (),
+        "input_only": (),
+        "hw_pwm": (29, 31, 33),  # HW PWMs to skip for this test
+    },
 }
 
 pin_data = pin_datas.get(GPIO.model)

@@ -122,8 +122,32 @@ am62p_sk_pin_defs = [
     (31, 6, "GPIO0_33"),
     (32, 12, "GPIO0_40"),
     # (33, 13, "GPIO1_10"),
-    # (36, 16, "GPIO1_9"),
+    # (36, 19, "GPIO1_9"),
     (37, 26, "GPIO0_41"),
+]
+
+j722s_evm_pin_defs = [
+    # BOARD BCM SOC
+    (7, 4, "GPIO0_38"),
+    (8, 14, "GPIO1_14"),
+    (10, 15, "GPIO1_13"),
+    (11, 17, "GPIO1_08"),
+    (12, 18, "GPIO1_11"),
+    (13, 27, "GPIO0_33"),
+    #    (15, 22, "GPIO1_07"),
+    (16, 23, "MCU_GPIO0_07"),
+    (18, 24, "MCU_GPIO0_08"),
+    (19, 10, "MCU_GPIO0_03"),
+    (21, 9, "MCU_GPIO0_04"),
+    (22, 25, "GPIO0_42"),
+    (23, 11, "MCU_GPIO0_02"),
+    (24, 8, "MCU_GPIO0_00"),
+    (26, 7, "MCU_GPIO0_01"),
+    (32, 12, "GPIO1_16"),
+    (35, 19, "GPIO1_12"),
+    (37, 26, "GPIO0_36"),
+    (38, 20, "GPIO1_10"),
+    (40, 21, "GPIO1_09"),
 ]
 
 all_pins = {
@@ -132,6 +156,7 @@ all_pins = {
     "AM69_SK": am69_sk_pin_defs,  # all non hw-pwm pins
     "AM62A_SK": am62a_sk_pin_defs,  # all non hw-pwm pins
     "AM62P_SK": am62p_sk_pin_defs,  # all non hw-pwm pins
+    "J722S_EVM": j722s_evm_pin_defs,  # all non hw-pwm pins
 }
 
 pin_defs = all_pins.get(GPIO.model)
