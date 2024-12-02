@@ -33,7 +33,7 @@ classifiers = [
 
 setup(
     name="TI.GPIO",
-    version="2.0.0",
+    version="2.1.0",
     author="TI",
     author_email="vijayp@ti.com",
     description="A module to control TI SK GPIO channels",
